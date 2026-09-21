@@ -15,19 +15,32 @@ these steps need your accounts, so they are yours to do. Nothing here has been d
 
 ## Steps
 
-1. **Neon:** create a project and copy the connection string (it starts with `postgresql://`). Create a second database (or
-   branch) for tests only if you will run the backend tests against it; never point tests at the live one.
-2. **Once, from your computer,** put that string in `~/.wattshift/.env` as `DATABASE_URL=...` and run, in `backend`:
-   `python -m scripts.init_db` (creates the tables, the tariff, and today's prices), then
-   `python -m scripts.onboard_site --company <name> --site <name> --gpus <n>`. It prints the site key **once**; put it in the
-   agent's config file on the customer's machine.
-3. **Render:** New > Blueprint > this repository. Fill in `DATABASE_URL`, `API_KEY` (make one: 32+ random characters) and
-   `CORS_ORIGINS` (fill it after step 4, then redeploy). The free plan sleeps after about 15 minutes idle, and the
-   in-process scheduler sleeps with it. Add a free pinger (cron-job.org or a GitHub Actions cron) that calls
-   `https://<your-api>/health` every 10 minutes. The API also catches up missed work when it wakes.
+1. **Neon (a NEW project, not the one you develop in):** create a project named `wattshift-hosted` in the Singapore region and copy
+   the **direct** connection string (the host has no `-pooler` in it; it ends `?sslmode=require`). Compute hours are counted per
+   project, so keeping the hosted database apart from your development and test databases stops local work from using up the
+   hosted site's free hours. Never point the tests at the hosted database.
+2. **Once, from your computer,** save that string in `~/.wattshift/.env` as `HOSTED_DATABASE_URL=...`, then create the tables, the
+   tariff and today's prices in it (the API key line is added the same way, see step 3):
+   `DATABASE_URL=<that string> python -m scripts.init_db` from `backend`. (The tables, the tariff catalogue and the audit-log guard are
+   all created by that command.)
+3. **Render:** New > Blueprint > this repository, region Singapore. Fill in `DATABASE_URL` (the hosted string), `API_KEY` (32+ random
+   characters; keep a copy in `~/.wattshift/.env` as `HOSTED_API_KEY`) and `CORS_ORIGINS` (the Vercel address, filled in after step 4, then
+   redeploy). `PRODUCTION=1` and `REPLAN_SECONDS=1800` are already in `render.yaml`.
 4. **Vercel:** import the repository, root directory `frontend`, and set `VITE_API_URL` to the Render address (no trailing
    slash). The dashboard uses `#/` routes, so no rewrite rules are needed. Put the Vercel address into `CORS_ORIGINS` on Render.
-5. **Check:** open the dashboard, submit a job (it asks for the API key), open **Live cluster** and pick your site.
+5. **Check:** open the dashboard, wait for the API to wake (about a minute the first time), open **Prices today**, submit a job
+   from **Try it** (it asks for the API key).
+
+## Staying inside the free plans
+
+- **Render** sleeps the API after 15 minutes without visitors and wakes it in about a minute. That is fine for a showcase, and the
+  dashboard says "waiting for the API to come up" while it wakes. **Do not add a keep-alive pinger.** It would use nearly all of the
+  750 monthly hours and keep the database awake.
+- **Neon's** free compute hours (100 a month per project) are only used while something is asking the database questions. On a hosted
+  API with no Kaggle provider the job loop runs every 30 minutes (`IDLE_DISPATCH_SECONDS`), re-planning every 30 minutes
+  (`REPLAN_SECONDS`), prices are fetched every 3 hours, and a dashboard tab that is not on screen stops polling. If the hours run out,
+  the database pauses until next month; nothing is deleted.
+- Do not run your own tests, the demo or a local scheduler against the hosted database.
 
 ## Security settings (see `docs/security/2026-09-21-audit.md`)
 

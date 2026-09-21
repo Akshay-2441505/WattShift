@@ -15,6 +15,7 @@ function usePolled<T>(fetcher: (() => Promise<T>) | null, intervalMs: number): P
     if (!fetcher) return
     let alive = true
     const run = async () => {
+      if (document.hidden) return // a tab nobody is looking at must not keep a sleeping database awake
       try {
         const data = await fetcher()
         if (alive) setState({ data, error: null })

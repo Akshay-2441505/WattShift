@@ -61,7 +61,8 @@ def start(
     if n:
         log.warning("recovered %d job(s) interrupted before provider start", n)
     sched = BackgroundScheduler(job_defaults={"coalesce": True, "max_instances": 1})
-    sched.add_job(tick, "interval", seconds=dispatch_seconds, args=[factory, providers, now], id="dispatch")
+    dispatch_every = dispatch_seconds if providers else max(dispatch_seconds, settings.idle_dispatch_seconds)
+    sched.add_job(tick, "interval", seconds=dispatch_every, args=[factory, providers, now], id="dispatch")
     sched.add_job(
         replan_tick, "interval", seconds=replan_seconds or settings.replan_seconds, args=[factory, now], id="replan"
     )

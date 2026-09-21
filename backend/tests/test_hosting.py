@@ -47,3 +47,19 @@ def test_the_root_address_points_at_the_api_docs():
 
     r = TestClient(app).get("/", follow_redirects=False)
     assert r.status_code == 307 and r.headers["location"] == "/docs"
+
+
+def test_with_no_compute_provider_the_dispatch_loop_runs_rarely_so_a_free_database_can_sleep(engine):
+    """A hosted API cannot run Kaggle jobs, so a 5-second loop would only keep the database awake and use up its free hours."""
+    from app import db, runner
+    from app.config import settings
+    from app.providers.fake import FakeProvider
+    from tests.helpers import NOW
+
+    factory = db.make_session_factory(engine)
+    for providers, expected in (({}, settings.idle_dispatch_seconds), ({"kaggle": FakeProvider()}, 5)):
+        sched = runner.start(factory, providers, dispatch_seconds=5, ingest=False, now=lambda: NOW)
+        try:
+            assert sched.get_job("dispatch").trigger.interval.total_seconds() == expected
+        finally:
+            sched.shutdown(wait=False)

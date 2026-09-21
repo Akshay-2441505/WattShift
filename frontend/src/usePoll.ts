@@ -18,6 +18,7 @@ export function usePoll(intervalMs = 5000): PollState {
   useEffect(() => {
     alive.current = true
     const tick = async () => {
+      if (document.hidden) return // a tab nobody is looking at must not keep a sleeping database awake
       setState((s) => ({ ...s, refreshing: true }))
       try {
         const data = await fetchSnapshot()

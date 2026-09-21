@@ -8,7 +8,7 @@ export function useMeasured(intervalMs = 10000): { data: Measured | null; error:
   useEffect(() => {
     let alive = true
     const tick = () =>
-      getMeasured().then(
+      document.hidden ? undefined : getMeasured().then(
         (data) => alive && setState({ data, error: false }),
         () => alive && setState((s) => ({ ...s, error: true })),
       )

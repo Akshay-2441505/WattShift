@@ -48,6 +48,9 @@ class Settings:
     cors_origins: tuple = tuple(o.strip() for o in os.environ.get("CORS_ORIGINS", "").split(",") if o.strip())  # the dashboard's origin(s)
     run_scheduler: bool = os.environ.get("SCHEDULER") == "1"  # start dispatch/ingest loops inside the API process
     dispatch_seconds: float = _f("DISPATCH_SECONDS", 5)  # lower (e.g. 2) for fast-clock demos
+    # With no compute provider (a hosted API cannot run Kaggle jobs) the dispatch loop has nothing to start, so it only needs to
+    # expire overdue jobs now and then. A 5-second loop would keep a scale-to-zero database awake all month.
+    idle_dispatch_seconds: float = _f("IDLE_DISPATCH_SECONDS", 1800)
     replan_seconds: float = _f("REPLAN_SECONDS", 300)  # how often not-yet-run jobs are re-evaluated (F9)
     # Jobs allowed to run at once. Kaggle's free tier appears to allow ~2 concurrent GPU sessions: with 4 at once the
     # extra pushes never became kernels (observed in the replay demo).
