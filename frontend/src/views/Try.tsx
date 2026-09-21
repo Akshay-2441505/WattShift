@@ -1,5 +1,5 @@
-import { useId, useState } from 'react'
-import { submitJob, type Job } from '../api'
+import { useEffect, useId, useState } from 'react'
+import { getHealth, submitJob, type Job } from '../api'
 import { MeasuredRuns } from '../components/Measured'
 import { DataTable, ErrorList, Field, Notice, PageHead, Section, SpeedNote, Term, ViewToggle } from '../components/ui'
 import { fmtInr } from '../lib/data'
@@ -58,6 +58,10 @@ function JobStrip({ job }: { job: Job }) {
 export function Try({ poll }: { poll: PollState }) {
   const uid = useId()
   const measured = useMeasured()
+  const [canRun, setCanRun] = useState(true) // assume yes until the server says otherwise
+  useEffect(() => {
+    getHealth().then((h) => setCanRun(h.can_run_jobs), () => {})
+  }, [])
   const d: Snapshot | null = poll.data
   const [duration, setDuration] = useState('60')
   const [deadline, setDeadline] = useState('')
@@ -123,6 +127,11 @@ export function Try({ poll }: { poll: PollState }) {
       <SpeedNote kind="real" title="Real speed.">
         Clocks and prices here are the real ones, so a held job can wait for hours before its cheap window opens. The GPU run itself is a short stand-in on a Kaggle GPU. The <a href="#/live">Live demo</a> is the sped-up version.
       </SpeedNote>
+      {!canRun && (
+        <Notice>
+          This server cannot run jobs: it has no GPU to start them on. A job submitted here is planned and held, then marked failed when its time comes. The real runs on this site were made from the owner’s computer.
+        </Notice>
+      )}
       {poll.error && <Notice>Can’t reach the Wattshift API, so this is the last data received. Retrying every 5 seconds.</Notice>}
 
       <div className="grid gap-x-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">

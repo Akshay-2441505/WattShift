@@ -63,3 +63,22 @@ def test_with_no_compute_provider_the_dispatch_loop_runs_rarely_so_a_free_databa
             assert sched.get_job("dispatch").trigger.interval.total_seconds() == expected
         finally:
             sched.shutdown(wait=False)
+
+
+def test_health_says_whether_this_server_can_run_jobs(monkeypatch):
+    """The hosted API has no Kaggle token, so the Try it page must be able to say so instead of letting a job quietly fail later."""
+    from dataclasses import replace
+
+    from fastapi.testclient import TestClient
+
+    from app import main
+
+    def can_run(**kw):
+        monkeypatch.setattr(main, "settings", replace(main.settings, **kw))
+        body = TestClient(main.app).get("/health").json()
+        assert body["ok"] is True
+        return body["can_run_jobs"]
+
+    assert can_run(run_scheduler=True, kaggle_username="someone") is True
+    assert can_run(run_scheduler=True, kaggle_username=None) is False  # no Kaggle account configured (a hosted API)
+    assert can_run(run_scheduler=False, kaggle_username="someone") is False  # nothing is dispatching jobs

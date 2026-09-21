@@ -31,6 +31,21 @@ these steps need your accounts, so they are yours to do. Nothing here has been d
 5. **Check:** open the dashboard, wait for the API to wake (about a minute the first time), open **Prices today**, submit a job
    from **Try it** (it asks for the API key).
 
+## Filling the hosted Measured page
+
+The hosted API has no Kaggle token, so the real GPU runs behind the **Measured** page are made from your own computer and stored in
+the hosted database. Only do this against an EMPTY hosted database: the replay demo deletes every job first.
+
+1. In `backend`, start a local API that points at the hosted database, with the Kaggle scheduler and the demo endpoints on
+   (`DATABASE_URL=<hosted string>`, `SCHEDULER=1`, `DEMO_MODE=1`, `DISPATCH_SECONDS=2`, then
+   `python -m uvicorn app.main:app --port 8300`). Never set `DEMO_MODE` on Render.
+2. In a second terminal: `python -m scripts.demo --url http://127.0.0.1:8300 --jobs 2 --scale 180`. It takes about 7 minutes and uses four
+   Kaggle GPU runs (a "without" run and a real run for each of two jobs). The clock is replayed, so the pairs are marked as such on the page.
+3. Stop the local API. The replay also stored a day of replayed prices, which the live site ignores; remove them with
+   `delete from price_signals where source = 'iex_dam_replay'`.
+
+The hosted "Try it" page says plainly that the server cannot run jobs (`/health` reports `can_run_jobs`).
+
 ## Staying inside the free plans
 
 - **Render** sleeps the API after 15 minutes without visitors and wakes it in about a minute. That is fine for a showcase, and the

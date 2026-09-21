@@ -151,7 +151,8 @@ def savings_by_job(session: Session) -> dict:
 
 @app.get("/health")
 def health():
-    return {"ok": True}
+    # can_run_jobs: this server both has a compute provider and is dispatching to it. A hosted copy has neither (no Kaggle token).
+    return {"ok": True, "can_run_jobs": bool(settings.run_scheduler and settings.kaggle_username)}
 
 
 @app.post("/jobs", status_code=201, dependencies=[Depends(require_api_key)])

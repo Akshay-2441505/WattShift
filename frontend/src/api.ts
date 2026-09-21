@@ -83,6 +83,7 @@ export async function fetchSnapshot(): Promise<Snapshot> {
 }
 
 export const getTariff = () => get<Tariff>('/tariff')
+export const getHealth = () => get<{ ok: boolean; can_run_jobs: boolean }>('/health')
 export const getMeasured = () => get<Measured>('/measured')
 export const getSites = () => get<SiteInfo[]>('/sites')
 export const getSiteView = (id: string) => get<SiteView>(`/sites/${id}/view`)
