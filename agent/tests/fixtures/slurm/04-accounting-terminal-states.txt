@@ -1,0 +1,10 @@
+﻿failed=24 cancelled-while-pending=25 timeout=26 cancelled-while-running=27
+job 24 reached FAILED after 1s at 2026-09-19T12:02:32Z
+job 26 reached TIMEOUT after 72s at 2026-09-19T12:03:49Z
+== accounting
+JobID|State|ExitCode|Submit|Start|End|Elapsed|Reason
+24|FAILED|3:0|2026-09-19T12:02:24|2026-09-19T12:02:24|2026-09-19T12:02:25|00:00:01|None
+25|CANCELLED by 0|0:0|2026-09-19T12:02:24|None|2026-09-19T12:02:32|00:00:00|None
+26|TIMEOUT|0:0|2026-09-19T12:02:24|2026-09-19T12:02:24|2026-09-19T12:03:49|00:01:25|None
+27|CANCELLED by 0|0:0|2026-09-19T12:02:24|2026-09-19T12:02:27|2026-09-19T12:02:32|00:00:05|None
+== the same jobs in squeue (finished jobs are kept only MinJobAge=300 s)

@@ -1,0 +1,3 @@
+exit=1
+stdout=''
+stderr='slurm_load_jobs error: Invalid job id specified\n'

@@ -1,0 +1,8 @@
+﻿AFTER restart (2026-09-19T12:13:50Z): job 37
+   JobState=PENDING Reason=BeginTime Dependency=(null)
+   StartTime=2026-09-19T12:15:48 EndTime=2026-09-19T12:17:48 Deadline=N/A
+-- wait for it to leave PENDING
+job 37 left PENDING after 137s at 2026-09-19T12:16:20Z (state: finished)
+JobID|Eligible|Start|State
+37|2026-09-19T12:15:48|2026-09-19T12:16:19|COMPLETED
+target was 2026-09-19T12:15:48

@@ -1,0 +1,17 @@
+﻿== associations
+User|Account|QOS
+alice|labs|flex,normal
+bob|labs|flex,normal
+wsagent|labs|normal
+== submit as alice with 2 fake GPUs in the flex QoS
+job id: 8
+job 8 reached COMPLETED after 7s at 2026-09-19T11:42:13Z
+== sacct (does AllocTRES show the GPUs?)
+JobID|User|QOS|ReqTRES|AllocTRES|State
+8|alice|flex|billing=1,cpu=1,mem=11815M,node=1|billing=2,cpu=2,mem=11815M,node=1|COMPLETED
+== scontrol show job (only still available for MinJobAge=300 s)
+   JobState=COMPLETED Reason=None Dependency=(null)
+   ReqTRES=cpu=1,mem=11815M,node=1,billing=1
+   AllocTRES=cpu=2,mem=11815M,node=1,billing=2
+   SubmitLine=sbatch --parsable -p cpu --qos=flex --gres=gpu:2 -t 2 --wrap=sleep 5
+   TresPerNode=gres/gpu:2

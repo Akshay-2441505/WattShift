@@ -1,0 +1,26 @@
+# Wattshift agent configuration. Start with mode: shadow (it only reads and reports; nothing in Slurm changes).
+cloud:
+  url: https://api.wattshift.example        # given to you at onboarding
+  key_file: /etc/wattshift/site.key         # the site key, one line. Or set WATTSHIFT_SITE_KEY. Never put it in this file.
+
+mode: shadow                                # shadow | autonomous
+poll_seconds: 30                            # 10 to 300; the cloud may ask for a different pace (10 to 120)
+
+state_file: /var/lib/wattshift/state.db     # the agent's memory; losing it is safe
+audit_file: /var/log/wattshift/audit.log    # every Slurm command and decision, one JSON line each
+
+# How to reach Slurm's commands when they are not on this machine. Leave empty if squeue is on the PATH.
+# Whatever you use must pass TZ=UTC and SLURM_TIME_FORMAT=%s through to the Slurm command, for example:
+#   prefix: [docker, exec, -e, TZ=UTC, -e, SLURM_TIME_FORMAT=%s, slurmctld]
+slurm:
+  prefix: []
+
+# Only jobs that match a rule are ever touched. The first matching rule wins. Everything else is invisible to Wattshift.
+# match fields: qos, partition, user, account (exact) and name (a regular expression).
+# max_wait: how much later than it otherwise would have started a job may start (e.g. 90m, 12h, 2d). 0h = never touch.
+rules:
+  - match: { qos: flex }
+    max_wait: 24h
+  - match: { partition: batch-infer, name: "^eval-.*" }
+    max_wait: 12h
+default: none

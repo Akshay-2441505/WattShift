@@ -1,0 +1,16 @@
+﻿alice's pending job: 40
+== PLAIN user bob sees alice's pending job?
+  (lines above; empty = hidden)
+== PLAIN user bob reads others' accounting?
+JobID|User
+1|root
+2|root
+== operator wsagent sees alice's pending job?
+40 alice
+  (lines above; empty = hidden)
+== operator wsagent reads others' accounting?
+JobID|User
+1|root
+2|root
+== operator can still update StartTime?
+  exit=0

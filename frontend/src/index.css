@@ -1,0 +1,517 @@
+@import 'tailwindcss';
+
+/*
+ * Ground Hold. A job is a flight held at the gate until a cheap power slot opens.
+ * Tower-desk board, paper strips, one aluminium rail, one shared time ruler.
+ * Only two colours mean anything: cheap (green) and dear (vermilion). State is carried by strip shape.
+ */
+@theme {
+  --color-board: #d6dce3; /* the desk */
+  --color-recess: #c8d0d9; /* recessed rail and ruler ground */
+  --color-strip: #f8f9fb; /* paper */
+  --color-line: #a3aeba; /* hairlines and the aluminium rail */
+  --color-ink: #10141a;
+  --color-ink-2: #35404c;
+  --color-ink-3: #4b5764;
+  --color-cheap: #086b50;
+  --color-cheap-wash: #b4dccb;
+  --color-peak: #b3321c;
+  --color-peak-wash: #efc8bf;
+  --font-sans: 'Archivo Variable', ui-sans-serif, system-ui, sans-serif;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Night watch: the same board under a low lamp. Follows the system setting unless the visitor chose a side. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --color-board: #14181d;
+    --color-recess: #0d1014;
+    --color-strip: #212932;
+    --color-line: #3b4652;
+    --color-ink: #eef1f5;
+    --color-ink-2: #bcc5cf;
+    --color-ink-3: #98a3af;
+    --color-cheap: #44d2a4;
+    --color-cheap-wash: #16503f;
+    --color-peak: #ff7d5e;
+    --color-peak-wash: #5b2618;
+  }
+}
+:root[data-theme='dark'] {
+  --color-board: #14181d;
+  --color-recess: #0d1014;
+  --color-strip: #212932;
+  --color-line: #3b4652;
+  --color-ink: #eef1f5;
+  --color-ink-2: #bcc5cf;
+  --color-ink-3: #98a3af;
+  --color-cheap: #44d2a4;
+  --color-cheap-wash: #16503f;
+  --color-peak: #ff7d5e;
+  --color-peak-wash: #5b2618;
+}
+
+:root {
+  color-scheme: light dark;
+  --shadow-strip: 0 1px 0 rgb(16 20 26 / 0.18), 0 3px 8px -3px rgb(16 20 26 / 0.3);
+  --radius: 3px;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+html {
+  background: var(--color-board);
+  scroll-behavior: smooth;
+  scroll-padding-top: 88px;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--color-board);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-stretch: 100%;
+  font-size: 17px;
+  line-height: 1.6;
+  font-weight: 420;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  caret-color: var(--color-ink);
+}
+
+::selection {
+  background: var(--color-ink);
+  color: var(--color-board);
+}
+
+/* Scrollbars belong to the desk too. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-line) transparent;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+h1 {
+  font-stretch: 112%;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+h2 {
+  font-stretch: 112%;
+  font-weight: 700;
+  letter-spacing: -0.012em;
+  line-height: 1.1;
+}
+
+h3 {
+  font-stretch: 100%;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+.num {
+  font-variant-numeric: tabular-nums; /* figures that line up, in the same sans as everything else */
+}
+
+.narrow {
+  font-stretch: 75%;
+}
+
+.prose-plain {
+  max-width: 62ch;
+}
+
+a {
+  text-underline-offset: 0.22em;
+}
+
+button {
+  cursor: pointer;
+}
+
+a,
+button,
+summary,
+input,
+select {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 3px;
+  border-radius: var(--radius);
+}
+
+.skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 60;
+  background: var(--color-ink);
+  color: var(--color-board);
+  padding: 8px 14px;
+  border-radius: var(--radius);
+  font-weight: 700;
+}
+.skip-link:focus {
+  top: 12px;
+}
+
+/* ---- controls ---------------------------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-ink);
+  background: transparent;
+  color: var(--color-ink);
+  font-weight: 650;
+  font-size: 15px;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out), transform 120ms var(--ease-out);
+}
+.btn:hover:not(:disabled) {
+  background: var(--color-recess);
+}
+.btn:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.btn-primary {
+  background: var(--color-ink);
+  color: var(--color-board);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--color-ink-2);
+}
+.btn-danger {
+  border-color: var(--color-peak);
+  color: var(--color-peak);
+}
+.btn-danger[data-armed='true'] {
+  background: var(--color-peak);
+  color: var(--color-strip);
+}
+.btn-small {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+}
+.btn-quiet {
+  border-color: var(--color-line);
+  color: var(--color-ink-2);
+}
+
+/* Two-way switch: the pressed side is filled, the other side says what it does. */
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--color-ink);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.seg button {
+  min-height: 42px;
+  padding: 0 18px;
+  background: transparent;
+  color: var(--color-ink);
+  font-weight: 650;
+  font-size: 15px;
+  border: 0;
+}
+.seg button + button {
+  border-left: 1px solid var(--color-ink);
+}
+.seg button[aria-pressed='true'] {
+  background: var(--color-ink);
+  color: var(--color-board);
+}
+.seg button:disabled {
+  opacity: 0.55;
+}
+.seg button:focus-visible {
+  outline-offset: -4px;
+}
+
+.field {
+  display: block;
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-ink-3);
+  background: var(--color-strip);
+  color: var(--color-ink);
+  font-size: 16px;
+}
+.field::placeholder {
+  color: var(--color-ink-3);
+}
+.field:focus-visible {
+  outline-offset: 2px;
+}
+
+input[type='range'] {
+  accent-color: var(--color-ink);
+}
+
+/* ---- strips: one job, one strip ---------------------------------------------------------------------------- */
+.rack {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding: 14px 40px 14px 30px; /* room on the right for a strip pushed out of the rack */
+  background: var(--color-recess);
+  border-radius: var(--radius);
+}
+/* the aluminium rail the strips hang from */
+.rack::before {
+  content: '';
+  position: absolute;
+  left: 9px;
+  top: 8px;
+  bottom: 8px;
+  width: 8px;
+  border-radius: 2px;
+  background: var(--color-line);
+}
+
+.strip {
+  --tab: var(--color-line);
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(64px, auto) minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: 18px;
+  row-gap: 4px;
+  padding: 11px 16px 11px 38px;
+  background: var(--color-strip);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-strip);
+  transition:
+    transform 520ms var(--ease-out),
+    box-shadow 520ms var(--ease-out);
+}
+/* a small flag for the zone the job starts in (the zone is also written out in words, so colour is never alone) */
+.strip::before {
+  content: '';
+  position: absolute;
+  left: 11px;
+  top: 14px;
+  width: 13px;
+  height: 13px;
+  background: var(--tab);
+  border-radius: 2px;
+}
+.strip[data-zone='cheap'] {
+  --tab: var(--color-cheap);
+}
+.strip[data-zone='peak'] {
+  --tab: var(--color-peak);
+}
+
+/* held: pushed out of the rack, the way a controller cocks a strip to flag it */
+.strip[data-form='cocked'] {
+  transform: translateX(22px);
+}
+/* a plan only: dashed edge, nothing has changed in Slurm */
+.strip[data-form='planned'] {
+  border-style: dashed;
+  border-color: var(--color-ink-3);
+  box-shadow: none;
+}
+/* done: the corner is clipped */
+.strip[data-form='notched'] {
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 0 100%);
+  box-shadow: none;
+  border-right-color: transparent;
+}
+/* released: struck through */
+.strip[data-form='struck'] .strike {
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  text-decoration-color: var(--color-ink-2);
+}
+/* changed by its owner: the edge is doubled */
+.strip[data-form='doubled'] {
+  box-shadow:
+    var(--shadow-strip),
+    inset 0 0 0 3px var(--color-strip),
+    inset 0 0 0 4px var(--color-ink);
+}
+
+.strip .cap {
+  font-stretch: 100%;
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--color-ink-3);
+  line-height: 1.2;
+}
+.strip .cap .val {
+  margin-left: 6px;
+}
+.strip .val {
+  font-variant-numeric: tabular-nums;
+  font-size: 15px;
+  font-weight: 560;
+  line-height: 1.3;
+}
+.strip .name {
+  font-stretch: 100%;
+  font-weight: 750;
+  font-size: 17px;
+}
+
+/* ---- the shared time ruler --------------------------------------------------------------------------------- */
+.ruler {
+  position: relative;
+  background: var(--color-recess);
+  border-radius: var(--radius);
+}
+.band-cheap {
+  background: var(--color-cheap-wash);
+}
+.band-peak {
+  background: var(--color-peak-wash);
+}
+.band-normal {
+  background: color-mix(in srgb, var(--color-line) 34%, var(--color-recess));
+}
+.hatch {
+  background-image: repeating-linear-gradient(-45deg, currentColor 0 2px, transparent 2px 7px);
+}
+
+/* ---- tables (every chart has one) -------------------------------------------------------------------------- */
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14.5px;
+  text-align: left;
+}
+.tbl th {
+  font-stretch: 85%;
+  font-weight: 650;
+  color: var(--color-ink-3);
+  padding: 8px 12px 8px 0;
+  border-bottom: 1px solid var(--color-ink-3);
+  white-space: nowrap;
+}
+.tbl td {
+  padding: 9px 12px 9px 0;
+  border-bottom: 1px solid var(--color-line);
+  vertical-align: top;
+}
+.tbl td.num,
+.tbl th.num {
+  text-align: right;
+}
+.tbl th.num {
+  font-family: var(--font-sans);
+}
+
+.rule-top {
+  border-top: 1px solid var(--color-ink);
+}
+
+/* time-lapse or real speed: dashed or solid */
+.speed {
+  max-width: 78ch;
+  margin-bottom: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-ink);
+  border-radius: var(--radius);
+}
+.speed-lapse {
+  border-style: dashed;
+  border-width: 2px;
+}
+
+/* header groups: the time-lapse group has a dashed divider, the real-speed group a solid one */
+.nav-group {
+  padding-left: 14px;
+  border-left: 1px solid var(--color-ink);
+}
+.nav-group-lapse {
+  border-left-style: dashed;
+  border-left-width: 2px;
+}
+.nav-cap {
+  display: block;
+  padding-top: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-ink-3);
+}
+
+/* a term with a meaning on the Words page */
+.term {
+  display: inline;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 0.24em;
+  cursor: help;
+}
+
+dialog {
+  color: var(--color-ink);
+}
+dialog::backdrop {
+  background: rgb(16 20 26 / 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* small screens: a strip stacks its three parts */
+@media (max-width: 640px) {
+  body {
+    font-size: 16px;
+  }
+  .strip {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .strip[data-form='cocked'] {
+    transform: translateX(12px);
+  }
+}

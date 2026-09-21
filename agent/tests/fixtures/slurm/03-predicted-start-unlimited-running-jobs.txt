@@ -1,0 +1,11 @@
+﻿waiting for the previous blockers to end...
+queue empty at 2026-09-19T11:59:13Z
+== fill the GPUs with jobs that have NO time limit (like many real jobs)
+20
+21
+pending job 22 submitted 2026-09-19T11:59:16Z
++15s 11:59:31: predicted start = N/A  reason=Resources
++45s 12:00:03: predicted start = 2027-09-19T11:59:13  reason=Resources
++75s 12:00:35: predicted start = 2027-09-19T11:59:13  reason=Resources
++105s 12:01:07: predicted start = 2027-09-19T11:59:13  reason=Resources
+cleaned up

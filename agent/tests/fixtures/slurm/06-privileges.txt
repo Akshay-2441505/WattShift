@@ -1,0 +1,17 @@
+﻿alice's pending job: 39   (PrivateData currently: PrivateData = none)
+== operator wsagent updates alice's StartTime
+  exit=0
+== operator lists everyone's pending jobs
+39 alice PENDING
+== operator reads everyone's accounting
+JobID|User|State
+1|root|COMPLETED
+2|root|COMPLETED
+== PLAIN user bob (no admin) sees alice's pending job?
+39 alice
+== PLAIN user bob reads others' accounting?
+JobID|User
+1|root
+2|root
+== does the operator have cancel powers (agent must NOT need it)?
+  exit=0  state now: 

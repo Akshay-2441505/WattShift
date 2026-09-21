@@ -1,0 +1,14 @@
+﻿T0 2026-09-19T11:42:40Z
+submitted job 9
+   JobState=PENDING Reason=BeginTime Dependency=(null)
+   SubmitTime=2026-09-19T11:42:40 EligibleTime=2026-09-19T14:42:40
+   StartTime=2026-09-19T14:42:40 EndTime=2026-09-19T14:47:40 Deadline=N/A
+--- now set StartTime = now+45 seconds as the operator
+set StartTime=2026-09-19T11:43:25 (UTC) at 2026-09-19T11:42:40Z
+   JobState=PENDING Reason=None Dependency=(null)
+   StartTime=2026-09-19T11:43:25 EndTime=2026-09-19T11:48:25 Deadline=N/A
+job 9 reached RUNNING after 50s at 2026-09-19T11:43:31Z
+9 RUNNING 2026-09-19T11:43:31
+JobID|Submit|Eligible|Start|State
+9|2026-09-19T11:42:40|2026-09-19T11:43:25|2026-09-19T11:43:31|RUNNING
+target was 2026-09-19T11:43:25

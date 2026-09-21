@@ -1,0 +1,14 @@
+﻿docker : /root/lib.sh: line 25: syntax error: unexpected end of file
+At C:\Users\aakur\AppData\Local\Temp\claude\C--Users-aakur-OneDrive-Desktop-WattShift\7da7f8ec-b58a-4921-82a4-3c2a5702c
+fdc\scratchpad\slurm-lab\helpers.ps1:17 char:77
++ ... ib.sh`ncd /tmp`n" + $cmd); docker exec $C bash -l /root/_sx.sh 2>&1 }
++                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (/root/lib.sh: l...ted end of file:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+BatchStartTimeout       = 10 sec
+MinJobAge               = 300 sec
+SchedulerParameters     = (null)
+SchedulerTimeSlice      = 30 sec
+SchedulerType           = sched/backfill
+(defaults when unset: sched_interval=60 s, bf_interval=30 s)

@@ -1,0 +1,65 @@
+﻿== default sacct times (no zone shown):
+Submit|Start|End
+2026-09-19T12:01:40|2026-09-19T12:01:40|2026-09-19T12:02:02
+== epoch via SLURM_TIME_FORMAT=%s (sacct):
+Submit|Start|End
+1789819300|1789819300|1789819322
+== epoch via SLURM_TIME_FORMAT=%s (squeue on a pending job):
+28 1789826654
+== epoch via SLURM_TIME_FORMAT=%s (scontrol):
+SubmitTime=1789819454
+EligibleTime=1789826654
+StartTime=1789826654
+== TZ on the client changes default (non-epoch) output? yes if these differ:
+2026-09-19T14:04:14
+2026-09-19T19:34:14
+== JSON support?
+{
+  "jobs": [
+    {
+      "account": "labs",
+      "accrue_time": {
+        "set": true,
+        "infinite": false,
+        "number": 0
+      },
+      "admin_comment": "",
+      "allocating_node": "slurmctld",
+      "array_job_id": {
+        "set": true,
+        "infinite": false,
+        "number": 0
+      },
+      "array_task_id": {
+        "set": false,
+        "infinite": false,
+        "number": 0
+      },
+      "array_max_tasks": {
+        "set": true,
+        "infinite": false,
+        "nu
+== sacct --json:
+{
+  "jobs": [
+    {
+      "account": "labs",
+      "comment": {
+        "administrator": "",
+        "job": "",
+        "system": ""
+      },
+      "allocation_nodes": 1,
+      "array": {
+        "job_id": 0,
+        "limits": {
+          "max": {
+            "running": {
+              "tasks": 0
+            }
+          }
+        },
+        "task_id": {
+          "set": false,
+          "infinite"
+== clock: UTC +0000

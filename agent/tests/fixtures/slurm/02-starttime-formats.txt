@@ -1,0 +1,28 @@
+﻿job 15
+== StartTime=2099-01-01T00:00:00
+StartTime=2099-01-01T00:00:00
+== StartTime=now+90
+StartTime=2026-09-19T11:55:35
+== StartTime=now+5minutes
+StartTime=2026-09-19T11:59:05
+== StartTime=now+1hour
+StartTime=2026-09-19T12:54:05
+== StartTime=2020-01-01T00:00:00
+StartTime=Unknown
+== StartTime=garbage
+Invalid time specification (pos=0): garbage
+No changes specified
+StartTime=Unknown
+== StartTime=12:30
+StartTime=2026-09-19T12:30:00
+== StartTime=@1893456000
+Invalid time specification (pos=0): @1893456000
+No changes specified
+StartTime=2026-09-19T12:30:00
+
+== WHOSE TIME ZONE reads an absolute time? Send 2026-09-20T12:00:00 from a client in IST (UTC+5:30)
+stored, shown by a UTC client:
+StartTime=2026-09-20T06:30:00
+stored, shown as epoch seconds:
+StartTime=1789885800
+expected epoch if read as IST:  1789885800   (as UTC it would be 1789905600)

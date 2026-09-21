@@ -1,0 +1,10 @@
+﻿== energy (Q5)
+AcctGatherEnergyType    = (null)
+AcctGatherInterconnectType = (null)
+AcctGatherProfileType   = (null)
+JobAcctGatherFrequency  = 30
+JobAcctGatherType       = (null)
+JobAcctGatherParams     = (null)
+JobID|ConsumedEnergy|ConsumedEnergyRaw
+23||
+(empty energy = expected: no energy plugin in a container; the field names exist)

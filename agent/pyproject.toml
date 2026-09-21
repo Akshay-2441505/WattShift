@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wattshift-agent"
+version = "0.1.0"
+description = "Sets flexible Slurm jobs' start times to cheap grid hours, from inside the customer's network."
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[project.scripts]
+wattshift-agent = "wattshift_agent.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["wattshift_agent*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

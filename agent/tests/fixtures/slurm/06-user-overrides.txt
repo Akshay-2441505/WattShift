@@ -1,0 +1,20 @@
+﻿job 38 (alice's)
+== the agent (operator) defers it and tags it
+JobState=PENDING Reason=None StartTime=2099-01-01T00:00:00 Comment=wattshift:managed 
+== does sacct also see the Comment?
+JobID|State|Comment
+38|PENDING|
+== alice (the owner) changes StartTime herself
+JobState=PENDING Reason=None StartTime=2026-09-19T12:26:36 Comment=wattshift:managed 
+== alice holds it
+JobState=PENDING Reason=JobHeldUser StartTime=2026-09-19T12:26:36 Comment=wattshift:managed 
+== alice releases it
+JobState=PENDING Reason=None StartTime=2026-09-19T12:26:36 Comment=wattshift:managed 
+== bob (not the owner) tries to change it
+Invalid user id for job 38
+== alice edits the Comment (removing our marker)
+JobState=PENDING Reason=None StartTime=2026-09-19T12:26:36 Comment=mine 
+== alice cancels it
+JobState=CANCELLED Reason=None StartTime=2026-09-19T12:16:36 Comment=mine 
+JobID|State|Start|Comment
+38|CANCELLED by 2001|None|

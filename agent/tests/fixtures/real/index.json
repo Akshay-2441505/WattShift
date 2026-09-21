@@ -1,0 +1,14 @@
+{
+  "done": 60,
+  "failed": 61,
+  "timeout": 62,
+  "cancel_run": 63,
+  "gres3": 66,
+  "gpus2": 67,
+  "begin": 68,
+  "dependent": 69,
+  "array": 70,
+  "barname": 71,
+  "normal": 72,
+  "cancel_pend": 73
+}

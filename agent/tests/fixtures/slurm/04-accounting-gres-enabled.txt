@@ -1,0 +1,12 @@
+﻿== TRES known to accounting:
+Type|Name cpu| mem| energy| node| billing| fs|disk vmem| pages| gres|gpu gres|gpumem gres|gpuutil 
+NODELIST STATE GRES
+c1 idle gpu:4
+c2 idle gpu:4
+job 33 reached COMPLETED after 12s at 2026-09-19T12:12:39Z
+== sacct with gres/gpu accounting enabled:
+JobID|ReqTRES|AllocTRES|State
+33|billing=1,cpu=1,gres/gpu=3,mem=11815M,node=1|billing=2,cpu=2,gres/gpu=3,mem=11815M,node=1|COMPLETED
+== a PENDING job's requested GPUs (ReqTRES) once gres/gpu is tracked:
+36 PENDING tres-per-node=gres/gpu:2
+ReqTRES=cpu=1,mem=11815M,node=1,billing=1,gres/gpu=2

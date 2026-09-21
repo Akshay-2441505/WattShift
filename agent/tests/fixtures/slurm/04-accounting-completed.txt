@@ -1,0 +1,14 @@
+﻿job 23
+== while PENDING/RUNNING: what does the live view say about GPUs?
+23 RUNNING tres-per-node=gres/gpu:3 gres=c1 cpus=2
+NumCPUs=2 ReqTRES=cpu=1,mem=11815M,node=1,billing=1 AllocTRES=cpu=2,mem=11815M,node=1,billing=2 TresPerNode=gres/gpu:3 
+job 23 reached COMPLETED after 19s at 2026-09-19T12:02:03Z
+== sacct after completion
+JobID|JobName|User|Partition|QOS|Submit|Eligible|Start|End|Elapsed|ElapsedRaw|TimelimitRaw|ReqTRES|AllocTRES|State|ExitCode|Comment
+23|train-demo|alice|cpu|flex|2026-09-19T12:01:40|2026-09-19T12:01:40|2026-09-19T12:01:40|2026-09-19T12:02:02|00:00:22|22|5|billing=1,cpu=1,mem=11815M,node=1|billing=2,cpu=2,mem=11815M,node=1|COMPLETED|0:0|
+== with steps (no -X)
+JobID|AllocTRES|State
+23|billing=2,cpu=2,mem=11815M,node=1|COMPLETED
+23.batch|cpu=2,mem=11815M,node=1|COMPLETED
+== sacct fields that mention gres / tres / energy / time (for reference)
+AdminComment AllocTRES Comment ConsumedEnergy ConsumedEnergyRaw Eligible End ReqTRES Restarts Start Submit SubmitLine Suspended SystemComment TRESUsageInAve TRESUsageInMax TRESUsageInMaxNode TRESUsageInMaxTask TRESUsageInMin TRESUsageInMinNode TRESUsageInMinTask TRESUsageInTot TRESUsageOutAve TRESUsageOutMax TRESUsageOutMaxNode TRESUsageOutMaxTask TRESUsageOutMin TRESUsageOutMinNode TRESUsageOutMinTask TRESUsageOutTot Timelimit TimelimitRaw 

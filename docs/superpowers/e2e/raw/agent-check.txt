@@ -1,0 +1,6 @@
+ok    state file writable
+ok    squeue: 0 job(s) visible, 0 pending job(s) match your rules
+ok    scontrol show job: no pending job to read
+ok    sacct: accounting readable
+ok    cloud reachable
+mode: shadow (will never set future start times)

@@ -1,0 +1,28 @@
+﻿recorded: 2026-09-19T11:38:44Z
+slurm 26.05.2
+
+PARTITION AVAIL  TIMELIMIT  NODES  STATE NODELIST
+cpu*         up   infinite      2   idle c[1-2]
+gpu          up   infinite      0    n/a 
+
+AccountingStorageEnforce = none
+AccountingStorageTRES   = cpu,mem,energy,node,billing,fs/disk,vmem,pages
+AccountingStorageType   = accounting_storage/slurmdbd
+AcctGatherEnergyType    = (null)
+ClusterName             = linux
+GresTypes               = gpu
+JobAcctGatherType       = (null)
+MinJobAge               = 300 sec
+PriorityType            = priority/multifactor
+PrivateData             = none
+SchedulerParameters     = (null)
+SchedulerType           = sched/backfill
+SelectType              = select/cons_tres
+SelectTypeParameters    = CR_CORE_MEMORY
+SlurmctldTimeout        = 120 sec
+TaskPlugin              = task/affinity
+TaskPluginParam         = (null type)
+
+Sat Sep 19 11:38:44 UTC 2026
+TZ=
+UTC

@@ -1,0 +1,23 @@
+# Render blueprint for the API. Secrets (sync: false) are typed into Render's dashboard, never stored in this repo.
+services:
+  - type: web
+    name: wattshift-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.5"
+      - key: PRODUCTION      # the API refuses to start without API_KEY
+        value: "1"
+      - key: SCHEDULER       # the dispatch, ingest and re-plan loops run inside the API process
+        value: "1"
+      - key: DATABASE_URL    # Neon connection string
+        sync: false
+      - key: API_KEY         # any long random string; the dashboard asks for it before a write
+        sync: false
+      - key: CORS_ORIGINS    # the dashboard's address, e.g. https://wattshift.vercel.app
+        sync: false

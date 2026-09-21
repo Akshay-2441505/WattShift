@@ -1,0 +1,116 @@
+{
+  "agent_version": "0.1.0",
+  "mode": "autonomous",
+  "sent_at": "2026-09-21T14:13:20Z",
+  "jobs": [
+    {
+      "ref": "48211",
+      "state": "PENDING",
+      "submit_time": "2026-09-21T14:12:20Z",
+      "gpus": 8,
+      "time_limit_min": 90,
+      "max_wait_min": 1440,
+      "predicted_start": "2026-09-21T15:13:20Z",
+      "start_time": null,
+      "end_time": null,
+      "override": false,
+      "skipped_reason": null
+    },
+    {
+      "ref": "48212",
+      "state": "RUNNING",
+      "submit_time": "2026-09-21T13:23:20Z",
+      "gpus": 4,
+      "time_limit_min": 60,
+      "max_wait_min": 720,
+      "predicted_start": null,
+      "start_time": "2026-09-21T14:03:20Z",
+      "end_time": null,
+      "override": false,
+      "skipped_reason": null
+    },
+    {
+      "ref": "48213",
+      "state": "COMPLETED",
+      "submit_time": "2026-09-21T14:12:20Z",
+      "gpus": 2,
+      "time_limit_min": 60,
+      "max_wait_min": 1440,
+      "predicted_start": null,
+      "start_time": "2026-09-21T13:41:40Z",
+      "end_time": "2026-09-21T14:11:40Z",
+      "override": false,
+      "skipped_reason": null
+    },
+    {
+      "ref": "48214",
+      "state": "PENDING",
+      "submit_time": "2026-09-21T14:12:20Z",
+      "gpus": 4,
+      "time_limit_min": 60,
+      "max_wait_min": 1440,
+      "predicted_start": null,
+      "start_time": null,
+      "end_time": null,
+      "override": true,
+      "skipped_reason": null
+    },
+    {
+      "ref": "48215",
+      "state": "PENDING",
+      "submit_time": "2026-09-21T14:12:20Z",
+      "gpus": 4,
+      "time_limit_min": 60,
+      "max_wait_min": 1440,
+      "predicted_start": null,
+      "start_time": null,
+      "end_time": null,
+      "override": false,
+      "skipped_reason": null
+    },
+    {
+      "ref": "48217",
+      "state": "PENDING",
+      "submit_time": "2026-09-21T14:12:20Z",
+      "gpus": 4,
+      "time_limit_min": 60,
+      "max_wait_min": 1440,
+      "predicted_start": null,
+      "start_time": null,
+      "end_time": null,
+      "override": false,
+      "skipped_reason": null
+    },
+    {
+      "ref": "50_[1-3]",
+      "state": "PENDING",
+      "submit_time": "2026-09-21T14:12:20Z",
+      "gpus": null,
+      "time_limit_min": null,
+      "max_wait_min": 1440,
+      "predicted_start": null,
+      "start_time": null,
+      "end_time": null,
+      "override": false,
+      "skipped_reason": "array"
+    }
+  ],
+  "applied": [
+    {
+      "ref": "48211",
+      "start_at": "2026-09-21T16:13:20Z",
+      "ok": true,
+      "error": null
+    },
+    {
+      "ref": "48214",
+      "start_at": "2026-09-21T16:43:20Z",
+      "ok": false,
+      "error": "Invalid user id for job 48214"
+    }
+  ],
+  "released": [
+    "48217"
+  ],
+  "release_all": true
+}

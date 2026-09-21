@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+.pytest_cache/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.log
+.kaggle/
+kaggle.json
+.gstack/
+node_modules/
+dist/
+e2e/slurm-lab/upstream/
+e2e/.run/
+*.egg-info/

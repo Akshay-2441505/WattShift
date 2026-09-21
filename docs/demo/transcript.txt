@@ -1,0 +1,91 @@
+
+>>> Preparing: the lab, the demo cloud and the dashboard...
+
+>>> Ready. Open http://localhost:5174/#/live and put it on screen.
+
+>>> Electricity is EXPENSIVE right now. It turns CHEAP at 21:54:00 IST.
+(A time-lapse: every two minutes stand for one tariff hour. Everything else is real: Slurm, the agent, the cloud.)
+
+>>> Three GPU jobs are waiting behind a busy cluster:
+$ squeue
+   JOBID      NAME      STATE      REASON
+      15    demo-C    PENDING    Priority
+      14    demo-B    PENDING    Priority
+      13    demo-A    PENDING        None
+      11 demo-busy    RUNNING        None
+      12 demo-busy    RUNNING        None
+
+>>> SHADOW MODE: Wattshift watches and plans. It must not touch Slurm.
+The cloud has planned all three, and Slurm is untouched (no start time set):
+$ scontrol show job 13   (only the interesting lines)
+  JobState=PENDING  Reason=Resources  EligibleTime=2026-09-20T21:48:19
+
+>>> Now switch the site to AUTONOMOUS. Click it on the dashboard.
+(switching it for you)
+Wattshift set their start time in Slurm: 21:54:00, the moment electricity turns cheap.
+$ scontrol show job 13   (only the interesting lines)
+  JobState=PENDING  Reason=BeginTime  EligibleTime=2026-09-20T21:54:00   <- Slurm will not start it before this time
+
+>>> The busy jobs are done. The GPUs are FREE, and Slurm still holds our jobs:
+$ sinfo
+c1 idle
+c2 idle
+$ squeue
+   JOBID      NAME      STATE      REASON START_TIME
+      13    demo-A    PENDING   BeginTime 2026-09-20T21:54:00
+      14    demo-B    PENDING   BeginTime 2026-09-20T21:54:00
+      15    demo-C    PENDING   BeginTime 2026-09-20T21:54:00
+
+>>> Now stop the agent AND the cloud completely.
+Both are off. Slurm alone keeps the promise:
+$ squeue
+   JOBID      NAME      STATE      REASON START_TIME
+      13    demo-A    PENDING   BeginTime 2026-09-20T21:54:00
+      14    demo-B    PENDING   BeginTime 2026-09-20T21:54:00
+      15    demo-C    PENDING   BeginTime 2026-09-20T21:54:00
+  ...the jobs start in 260 s
+  ...the jobs start in 250 s
+  ...the jobs start in 240 s
+  ...the jobs start in 230 s
+  ...the jobs start in 220 s
+  ...the jobs start in 210 s
+  ...the jobs start in 200 s
+  ...the jobs start in 190 s
+  ...the jobs start in 180 s
+  ...the jobs start in 170 s
+  ...the jobs start in 160 s
+  ...the jobs start in 150 s
+  ...the jobs start in 140 s
+  ...the jobs start in 130 s
+  ...the jobs start in 120 s
+  ...the jobs start in 110 s
+  ...the jobs start in 100 s
+  ...the jobs start in 90 s
+  ...the jobs start in 80 s
+  ...the jobs start in 70 s
+  ...the jobs start in 60 s
+  ...the jobs start in 50 s
+  ...the jobs start in 40 s
+  ...the jobs start in 30 s
+  ...the jobs start in 20 s
+  ...the jobs start in 10 s
+  ...the jobs start in 0 s
+
+>>> The jobs just started, with nothing of ours running:
+$ squeue
+   JOBID      NAME      STATE      REASON START_TIME
+      15    demo-C    PENDING   Resources 2026-09-20T21:55:06
+      14    demo-B    RUNNING        None 2026-09-20T21:54:07
+      13    demo-A    RUNNING        None 2026-09-20T21:54:06
+$ sacct   (the set time was 21:54:00; Slurm starts a job at the next scheduling cycle after it, never before)
+JobID           JobName      State               Start 
+------------ ---------- ---------- ------------------- 
+13               demo-A    RUNNING 2026-09-20T21:54:06 
+14               demo-B    RUNNING 2026-09-20T21:54:07 
+15               demo-C    PENDING             Unknown
+
+>>> Bring the cloud back. It learns what really happened from Slurm's own records.
+
+>>> Measured saving: Rs 0.28 (31.99% lower than starting when Slurm would have), across 3 jobs.
+The percentage is what carries over to real jobs: these demo jobs run seconds, so the rupees are pennies.
+That is about 442 seconds from the first job to the measured result.

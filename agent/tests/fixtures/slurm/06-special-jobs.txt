@@ -1,0 +1,15 @@
+﻿== ARRAY job (3 tasks) with a begin time
+job id: 41
+41_[1-3]|1-3|PENDING|None
+JobId=41 ArrayJobId=41 ArrayTaskId=1-3 StartTime=2026-09-19T14:17:55 
+-- can the operator set StartTime on the whole array?
+  exit=0
+== DEPENDENCY job
+43|PENDING|Dependency|afterok:42(unfulfilled)
+Reason=Dependency Dependency=afterok:42(unfulfilled) 
+== REQUEUE
+job 44 reached RUNNING after 2s at 2026-09-19T12:17:59Z
+JobState=PENDING Reason=BeginTime Restarts=1 
+JobID|State|Restarts
+44|PENDING|1
+cleaned

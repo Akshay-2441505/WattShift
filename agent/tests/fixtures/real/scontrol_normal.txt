@@ -1,0 +1,28 @@
+JobId=72 JobName=e2e-normal
+   UserId=bob(2002) GroupId=bob(2002) MCS_label=N/A
+   Priority=1 Nice=0 Account=labs QOS=normal
+   JobState=PENDING Reason=Priority Dependency=(null)
+   Requeue=1 Restarts=0 BatchFlag=1 Reboot=0 ExitCode=0:0
+   RunTime=00:00:00 TimeLimit=00:05:00 TimeMin=N/A
+   SubmitTime=1789909219 EligibleTime=1789909219
+   AccrueTime=1789909219
+   StartTime=1789910400 EndTime=1789910700 Deadline=N/A
+   SuspendTime=None SecsPreSuspend=0 LastSchedEval=1789909239 Scheduler=Backfill:*
+   Partition=cpu AllocNode:Sid=slurmctld:8555
+   ReqNodeList=(null) ExcNodeList=(null)
+   NodeList= SchedNodeList=c1
+   NumNodes=1 NumCPUs=1 NumTasks=1 CPUs/Task=1 ReqB:S:C:T=0:0:*:*
+   ReqTRES=cpu=1,mem=11815M,node=1,billing=1
+   AllocTRES=(null)
+   Socks/Node=* NtasksPerN:B:S:C=0:0:*:* CoreSpec=*
+   MinCPUsNode=1 MinMemoryNode=0 MinTmpDiskNode=0
+   Features=(null) DelayBoot=00:00:00
+   OverSubscribe=NO Exclusive=NO Contiguous=0 Licenses=(null) LicensesAlloc=(null) Network=(null)
+   Command=(null)
+   SubmitLine=sbatch --parsable -p cpu --qos=normal -J e2e-normal -t 5 --gres=gpu:1 --wrap=sleep 30
+   WorkDir=/tmp
+   StdErr=
+   StdIn=/dev/null
+   StdOut=/tmp/slurm-72.out
+   TresPerNode=gres/gpu:1
+

@@ -1,0 +1,27 @@
+﻿16
+17
+pending job WITH time limit: 18 (submitted 2026-09-19T11:55:03Z)
+pending job WITHOUT time limit: 19
+--- immediately after submit (2026-09-19T11:55:03Z):
+19 PENDING Priority start=N/A
+18 PENDING None start=N/A
+--- squeue --start:
+JOBID STATE START_TIME REASON
+18 PENDING N/A None
+19 PENDING N/A Priority
+--- scontrol view:
+TimeLimit=00:03:00 StartTime=Unknown 
+TimeLimit=UNLIMITED StartTime=Unknown 
+--- stability: predicted start of job 18 every 10 s for 90 s
+11:55:03 N/A
+11:55:13 N/A
+11:55:25 N/A
+11:55:35 2026-09-19T11:59:00
+11:55:45 2026-09-19T11:59:00
+11:55:57 2026-09-19T11:59:00
+11:56:07 2026-09-19T11:59:00
+11:56:17 2026-09-19T11:59:00
+11:56:29 2026-09-19T11:59:00
+--- final (2026-09-19T11:56:39Z):
+18 PENDING 2026-09-19T11:59:00 Resources
+19 PENDING 2026-09-19T11:59:00 Priority

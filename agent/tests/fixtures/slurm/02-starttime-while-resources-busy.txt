@@ -1,0 +1,15 @@
+﻿10
+11
+bob job 12 is queued behind full GPUs at 2026-09-19T11:43:58Z
+12 PENDING None
+set StartTime=2026-09-19T11:47:58 (UTC); GPUs free up in about 170 s, well before that
+   JobState=PENDING Reason=BeginTime Dependency=(null)
+   StartTime=2026-09-19T11:47:58 EndTime=2026-09-19T11:49:58 Deadline=N/A
+--- checkpoint when the blocking jobs have finished (about 175 s in):
+at 2026-09-19T11:47:06Z:
+12 bob PENDING BeginTime
+TIMEOUT: job 12 last state 'COMPLETED' at 2026-09-19T11:52:34Z (wanted RUNNING)
+JobID|Start|State
+12|2026-09-19T11:48:18|COMPLETED
+target was 2026-09-19T11:47:58
+
