@@ -50,6 +50,11 @@ export function DayPicture({ bands, base, stackHour, stackLabel, ghostHour, ghos
 
   const at = (h: number) => ({ x: cxOf(h) - w / 2, cx: cxOf(h), bottom: stackBottom(bands, base, h) })
   const anchor = (h: number) => (cxOf(h) < 100 ? 'start' : cxOf(h) > DAY.W - 110 ? 'end' : 'middle')
+  // A job label centred on a dot near midnight ran off the edge of the picture: keep the whole label inside it.
+  const labelX = (h: number, label: string) => {
+    const half = label.length * 5.5 + 6
+    return Math.min(Math.max(cxOf(h), half), DAY.W - half)
+  }
   const anchorX = (h: number) => (anchor(h) === 'start' ? 0 : anchor(h) === 'end' ? w : w / 2)
 
   // the hand-off arrow from where the jobs would have started to where they start
@@ -118,7 +123,7 @@ export function DayPicture({ bands, base, stackHour, stackLabel, ghostHour, ghos
       {marks.map((m, i) => (
         <g key={`${m.label}-${i}`}>
           <circle cx={cxOf(m.hour)} cy={stackBottom(bands, base, m.hour) - 6} r="7" fill="var(--color-ink)" stroke="var(--color-board)" strokeWidth="2" />
-          <text x={cxOf(m.hour)} y={stackBottom(bands, base, m.hour) - 20 - (i % 2) * 16} fontSize="16" fontWeight="600" textAnchor="middle" fill="var(--color-ink)" stroke="var(--color-board)" strokeWidth="4" paintOrder="stroke">
+          <text x={labelX(m.hour, m.label)} y={stackBottom(bands, base, m.hour) - 20 - (i % 2) * 16} fontSize="16" fontWeight="600" textAnchor="middle" fill="var(--color-ink)" stroke="var(--color-board)" strokeWidth="4" paintOrder="stroke">
             {m.label}
           </text>
         </g>
